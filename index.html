@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>جنگل جادویی اعداد</title>
+<link href="https://fonts.googleapis.com/css2?family=Playpen+Sans+Arabic:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#fdeaff;--bg2:#d7f5e0;--bg3:#9fe3bd;--card:#ffffffc9;--tx:#3b1f5e;--ac:#b06bff;--gold:#ffb703;--bd:#b06bff55;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme='light']){--bg1:#1b1240;--bg2:#11324a;--bg3:#0b4a3a;--card:#241a50c9;--tx:#f6ecff;--ac:#d9a6ff;--bd:#d9a6ff55}}
+:root[data-theme='dark']{--bg1:#1b1240;--bg2:#11324a;--bg3:#0b4a3a;--card:#241a50c9;--tx:#f6ecff;--ac:#d9a6ff;--bd:#d9a6ff55}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font-family:'Playpen Sans Arabic',Tahoma,sans-serif;color:var(--tx);background:linear-gradient(180deg,var(--bg1),var(--bg2) 55%,var(--bg3));background-attachment:fixed;min-height:100vh}
+.wrap{max-width:560px;margin:0 auto;padding:14px 14px 90px;position:relative;z-index:1}
+.scr{display:none;animation:in .35s}.scr.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:24px;padding:16px;margin:12px 0;backdrop-filter:blur(10px);box-shadow:0 10px 28px #0002}
+h1{font-size:25px;font-weight:800;margin:10px 0;text-align:center;animation:flt 4s ease-in-out infinite;text-shadow:0 0 22px #fff9}
+h2{font-size:19px;text-align:center;margin:6px 0}
+@keyframes flt{50%{transform:translateY(-6px)}}
+p.sub{text-align:center;margin:0 0 10px;opacity:.9;font-size:14px}
+button{font-family:inherit;font-size:16px;font-weight:700;border:0;border-radius:16px;padding:12px 16px;background:linear-gradient(135deg,#ff9be0,#b06bff);color:#fff;cursor:pointer;width:100%;margin:6px 0;box-shadow:0 4px 0 #8447c9,0 10px 16px #0002}
+button:active{transform:translateY(3px);box-shadow:0 1px 0 #8447c9}
+button.alt{background:#ffffff30;color:var(--tx);box-shadow:none;border:2px solid var(--bd)}
+button:disabled{opacity:.5}
+input{font-family:inherit;font-size:17px;width:100%;padding:12px;border-radius:14px;border:2px solid var(--bd);background:#ffffff40;color:var(--tx);text-align:center}
+.row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chip{width:auto;min-width:60px;margin:0;padding:10px 16px;box-shadow:none;background:#ffffff40;color:var(--tx);border:2px solid var(--bd)}
+.chip.sel{background:linear-gradient(135deg,#ffe58a,#ffb703);color:#4a2c00;border-color:#ffd24d;box-shadow:0 0 16px #ffb703aa}
+.chip.ok{background:linear-gradient(135deg,#5de0a0,#1e9e5a);color:#fff;border-color:#1e9e5a}
+.chip.bad{background:#e25b7a;color:#fff;border-color:#e25b7a}
+.av{font-size:30px;padding:6px 10px}
+.hud{display:flex;justify-content:space-between;font-weight:700;gap:6px}
+.bar{height:10px;border-radius:9px;background:var(--bd);overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#ff9be0,#ffb703);transition:width .4s}
+.q{text-align:center;background:linear-gradient(160deg,#5b2a99,#1f6b57);color:#fff}
+.q b{display:block;font-size:21px;line-height:1.9;margin:6px 0}
+.opts{display:flex;flex-direction:column;gap:8px}.opts .chip{width:100%;font-size:18px}
+.msg{min-height:44px;text-align:center;font-weight:700;margin:6px 0}
+.hint{background:#ffb70326;border-radius:12px;padding:8px 12px;margin:6px 0;font-size:14px}
+.map{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stg{margin:0;line-height:1.8;padding:14px 8px}.stg small{display:block;font-weight:400}.stg.lock{opacity:.45}
+.top{position:absolute;top:8px;left:12px}.top button{width:44px;padding:6px;margin:0;font-size:18px}
+.foot{text-align:center;font-size:13px;opacity:.9;margin-top:14px}
+.fx{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.ff{position:absolute;bottom:-20px;font-size:16px;opacity:.7;animation:up linear infinite}
+@keyframes up{to{transform:translateY(-110vh) translateX(30px)}}
+.bf{position:absolute;left:0;font-size:28px;animation:fly linear infinite}
+@keyframes fly{from{transform:translateX(-15vw) translateY(0)}50%{transform:translateX(50vw) translateY(-40px)}to{transform:translateX(115vw) translateY(10px)}}
+.gr{position:absolute;bottom:0;left:0;right:0;height:60px;display:flex;justify-content:space-around;font-size:34px;background:linear-gradient(0deg,#5fbf8acc,transparent)}
+.cf{position:fixed;top:-24px;font-size:22px;z-index:50;pointer-events:none;animation:fall 1.5s ease-in forwards}
+@keyframes fall{to{transform:translateY(108vh) rotate(540deg);opacity:0}}
+.shk{animation:shk .4s}@keyframes shk{25%{transform:translateX(-9px)}75%{transform:translateX(9px)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top"><button class="alt" id="mb" aria-label="موسیقی">🎵</button></div>
+
+<section class="scr on" id="menu">
+<h1>🧚‍♀️ جنگل جادویی اعداد 🌿</h1>
+<p class="sub">فصل اول ریاضی ششم — ماجراجویی پری‌ها</p>
+<div class="card"><input id="nm" maxlength="16" placeholder="اسمت چیه پری کوچولو؟"><p class="sub" style="margin-top:12px">شخصیتت را انتخاب کن</p><div class="row" id="avs"></div></div>
+<button id="go">🗺️ شروع ماجراجویی</button>
+<button class="alt" id="hp">❓ راهنما</button>
+</section>
+
+<section class="scr" id="map"><h2>🗺️ نقشه جنگل جادویی</h2><p class="sub" id="mp"></p><div class="map" id="mg"></div><button class="alt" data-b>↩ بازگشت</button></section>
+
+<section class="scr" id="game">
+<div class="card"><div class="hud"><span id="lv"></span><span id="qn"></span><span id="sc"></span></div><div class="bar"><i id="pr" style="width:0"></i></div></div>
+<div class="card q"><div id="qt"></div><b id="qq"></b></div>
+<div class="opts" id="ops"></div>
+<div id="hints"></div><div class="msg" id="msg"></div>
+<button id="chk">✔ بررسی پاسخ</button>
+<button class="alt" id="hint">💡 راهنمایی</button>
+<button id="nxt" style="display:none">بعدی ◀</button>
+<button class="alt" id="quit">🗺️ برگشت به نقشه</button>
+</section>
+
+<section class="scr" id="end"><h2 id="et"></h2><div class="card"><p class="sub" id="es" style="font-size:19px;line-height:2"></p></div><button id="again">🔁 دوباره</button><button class="alt" id="tm">🗺️ نقشه</button></section>
+
+<section class="scr" id="help"><h2>❓ راهنما</h2><div class="card" style="line-height:2">در هر جزیره‌ی جنگل جادویی چند سؤال از فصل اول ریاضی ششم می‌پرسند. گزینه را انتخاب کن و «بررسی پاسخ» را بزن.<br>هر پاسخ درست ۱۰ امتیاز دارد (با راهنمایی ۵ امتیاز). سه پاسخ درست پشت‌هم، امتیاز جایزه دارد!<br>سه قلب داری؛ با هر اشتباه یکی کم می‌شود. برای باز شدن جزیره بعدی حداقل یک ستاره بگیر.</div><button class="alt" data-b>↩ بازگشت</button></section>
+
+<div class="foot">طراح و سازنده: سمیه زارع</div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),R=a=>a[Math.random()*a.length|0],ri=(a,b)=>a+Math.random()*(b-a+1)|0,sh=a=>a.sort(()=>Math.random()-.5);
+const fa=n=>String(n).replace(/\d/g,c=>'۰۱۲۳۴۵۶۷۸۹'[c]),fz=n=>'\u2066'+(n<0?'−':'')+fa(Math.abs(n))+'\u2069',iso=s=>'\u2066'+s+'\u2069';
+const LS={g(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},s(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const AV=['🧚‍♀️','🦄','🦋','🐰','🦊','🌸'],NM=['سارا','مریم','نگار','هستی','النا','پریا','آیدا','ریحانه'];
+const RT={2:'رقم یکانش زوج باشد.',3:'مجموع رقم‌هایش بر ۳ بخش‌پذیر باشد.',5:'رقم یکانش ۰ یا ۵ باشد.',6:'هم بر ۲ و هم بر ۳ بخش‌پذیر باشد.',9:'مجموع رقم‌هایش بر ۹ بخش‌پذیر باشد.',10:'رقم یکانش ۰ باشد.'};
+let av=LS.g('jj_av',AV[0]),name=LS.g('jj_nm',''),G={},ST=0,RU=[2,5,10],MU=true;
+function mc(c,ws,f=fa){const s=new Set([c]);ws.forEach(w=>s.add(w));return sh([...s].slice(0,4).map(x=>[f(x),x===c]))}
+const FN={
+eo(){const t='🌸 زوج یا فرد؟';if(Math.random()<.5){const n=ri(10,999);return{t,q:`عدد ${fa(n)} زوج است یا فرد؟`,o:sh([['زوج',n%2===0],['فرد',n%2===1]]),h:'عدد زوج، یکانش ۰، ۲، ۴، ۶ یا ۸ است.',e:'به رقم یکان نگاه کن: '+fa(n%10)}}
+ const a=ri(11,99),b=ri(11,99),m=Math.random()<.5,r=m?a*b:a+b;return{t,q:`حاصل ${fa(a)} ${m?'×':'+'} ${fa(b)} زوج است یا فرد؟`,o:sh([['زوج',r%2===0],['فرد',r%2===1]]),h:'فرد+فرد=زوج ، زوج+فرد=فرد ، فرد×فرد=فرد ، زوج×هر عدد=زوج',e:'حاصل برابر '+fa(r)+' است.'}},
+pat(){const t=R([0,1,2]);let s=[],a=ri(1,9),r;
+ if(t===0){const d=ri(2,9);s=[0,1,2,3,4].map(i=>a+d*i);r='هر بار '+fa(d)+' تا اضافه می‌شود'}
+ else if(t===1){const m=R([2,3]);a=ri(1,4);s=[0,1,2,3,4].map(i=>a*m**i);r='هر بار ضرب در '+fa(m)+' می‌شود'}
+ else{s=[a];for(let i=1;i<5;i++)s.push(s[i-1]+i);r='تفاضل‌ها ۱، ۲، ۳، ... زیاد می‌شوند'}
+ const c=s[4];return{t:'🍄 الگوی عددی',q:'عدد بعدی الگو چیست؟\n'+s.slice(0,4).map(fa).join('، ')+'، ؟',o:mc(c,[c+1,c-1,c+2,c-2,c+10]),h:'تفاضل یا نسبت دو عدد پشت‌سرهم را پیدا کن.',e:'قاعده: '+r+' ← '+fa(c)}},
+d(){const k=R(RU),sub=R([0,1,2]),m=()=>k*ri(Math.ceil(20/k),Math.floor(999/k)),nm=()=>{let n;do n=ri(20,999);while(n%k===0);return n},h='عدد بر '+fa(k)+' بخش‌پذیر است اگر '+RT[k],e='قانون '+fa(k)+': '+RT[k],t='🔮 بخش‌پذیری';
+ if(sub===0){const n=Math.random()<.5?m():nm();return{t,q:`آیا ${fa(n)} بر ${fa(k)} بخش‌پذیر است؟`,o:[['آری ✔',n%k===0],['نه ✖',n%k!==0]],h,e}}
+ if(sub===1){const ns=[m()];while(ns.length<4){const x=nm();if(!ns.includes(x))ns.push(x)}return{t,q:`کدام عدد بر ${fa(k)} بخش‌پذیر است؟`,o:sh(ns.map(x=>[fa(x),x%k===0])),h,e}}
+ let n;do n=m();while(n<10);const s=String(n),p=[2,5,10].includes(k)?s.length-1:ri(1,s.length-1),f=x=>+(s.slice(0,p)+x+s.slice(p+1)),ds=[0,1,2,3,4,5,6,7,8,9],v=ds.filter(x=>f(x)%k===0),bad=sh(ds.filter(x=>f(x)%k!==0)).slice(0,3);
+ return{t,q:`کدام رقم را به‌جای □ بگذاریم تا عدد ${iso(fa(s.slice(0,p))+'□'+fa(s.slice(p+1)))} بر ${fa(k)} بخش‌پذیر شود؟`,o:sh([R(v),...bad].map(x=>[fa(x),f(x)%k===0])),h,e}},
+int(){const t=ri(0,3),T='❄️ اعداد صحیح';
+ if(t===0){const ns=sh(Array.from({length:19},(_,i)=>i-9)).slice(0,4),big=Math.random()<.5,c=big?Math.max(...ns):Math.min(...ns);return{t:T,q:`کدام عدد ${big?'بزرگ‌ترین':'کوچک‌ترین'} است؟`,o:sh(ns.map(x=>[fz(x),x===c])),h:'روی محور عددی، هر چه به راست برویم عدد بزرگ‌تر می‌شود.',e:fz(c)+' روی محور '+(big?'از همه راست‌تر':'از همه چپ‌تر')+' است.'}}
+ if(t===1){let x=ri(-12,12);if(!x)x=5;return{t:T,q:`قرینه‌ی عدد ${fz(x)} کدام است؟`,o:mc(-x,[x,-x+1,x-1,-x-1,0],fz),h:'قرینه، همان فاصله از صفر در سمت دیگر محور است.',e:'قرینه‌ی '+fz(x)+' برابر '+fz(-x)+' است.'}}
+ if(t===2){const a=ri(-10,3),b=ri(2,9),up=Math.random()<.5,c=up?a+b:a-b;return{t:T,q:`دمای هوا ${fz(a)} درجه بود. ${fa(b)} درجه ${up?'بالا رفت':'پایین آمد'}. دمای جدید چند درجه است؟`,o:mc(c,[c+1,c-1,c+2,c-2,-c],fz),h:'روی محور، برای بالا رفتن به راست و برای پایین آمدن به چپ بشمار.',e:'دمای جدید '+fz(c)+' درجه است.'}}
+ const a=ri(-8,0),b=a+ri(4,9),c=b-a-1;return{t:T,q:`بین ${fz(a)} و ${fz(b)} چند عدد صحیح وجود دارد؟ (خودشان حساب نمی‌شوند)`,o:mc(c,[c+1,c-1,b-a,c+2]),h:'اعداد بین دو عدد را روی محور بنویس و بشمار.',e:'تعداد برابر '+fa(c)+' است.'}},
+queue(){const[x,y]=sh([...NM]),t=ri(0,3),T='✨ صف پریان';
+ if(t===0){const p=ri(2,9),q=ri(2,9),c=p+q-1;return{t:T,q:`${x} در یک صف، نفر ${fa(p)}ام از جلو و نفر ${fa(q)}ام از عقب است. در این صف چند نفر هستند؟`,o:mc(c,[c+1,c-1,c+2,p+q,c-2]),h:'خود او دو بار شمرده شده؛ یکی کم کن.',e:fa(p)+' + '+fa(q)+' − ۱ = '+fa(c)}}
+ if(t===1){const a=ri(2,8),b=a+ri(3,9),c=b-a-1;return{t:T,q:`در یک صف، ${x} نفر ${fa(a)}ام و ${y} نفر ${fa(b)}ام از جلو است. بین آن‌ها چند نفر ایستاده است؟`,o:mc(c,[c+1,c-1,b-a,c+2]),h:'خود آن دو نفر را نشمار.',e:fa(b)+' − '+fa(a)+' − ۱ = '+fa(c)}}
+ const N=ri(8,20),p=ri(2,N-1);
+ if(t===2){const c=N-p+1;return{t:T,q:`در یک صف ${fa(N)} نفره، ${x} نفر ${fa(p)}ام از جلو است. او از عقب نفر چندم است؟`,o:mc(c,[c+1,c-1,N-p,c+2]),h:'تعداد کل را منهای جایگاهش کن و یکی اضافه کن.',e:fa(N)+' − '+fa(p)+' + ۱ = '+fa(c)}}
+ const c=N-p;return{t:T,q:`در یک صف ${fa(N)} نفره، ${x} نفر ${fa(p)}ام از جلو است. چند نفر پشت سر او ایستاده‌اند؟`,o:mc(c,[c+1,c-1,c+2,p]),h:'تعداد کل منهای جایگاه او.',e:fa(N)+' − '+fa(p)+' = '+fa(c)}}
+};
+const STG=[['باغ گل‌های زوج و فرد','🌸',['eo']],['دره الگوهای رنگی','🍄',['pat']],['پل رنگین‌کمان (۲، ۵، ۱۰)','🌈',['d'],[2,5,10]],['درخت‌های درخشان (۳ و ۹)','🌳',['d'],[3,9]],['غار ستاره‌ها (۶)','💎',['d'],[6,2,3]],['دریاچه اعداد صحیح','🦢',['int']],['صف پریان','✨',['queue']],['قصر جادویی (همه‌چیز)','👑',['eo','pat','d','int','queue'],[2,3,5,6,9,10]]];
+// audio
+let ac,mg,mt=0,sp=0;const CH=[[48,55,60,64],[45,52,57,60],[41,48,53,57],[43,50,55,59]];
+function nt(t,m,d,ty,v,o=mg){const a=ac.createOscillator(),g=ac.createGain();a.type=ty;a.frequency.value=440*Math.pow(2,(m-69)/12);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.03);g.gain.exponentialRampToValueAtTime(.0001,t+d);a.connect(g);g.connect(o);a.start(t);a.stop(t+d+.05)}
+function sfx(m){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();nt(ac.currentTime,m,.25,'triangle',.12,ac.destination)}catch(e){}}
+function step(s,t){const i=s&7,c=CH[(s>>3)%4];if(!i)c.forEach((m,j)=>nt(t,m,2.2,'sine',j?.035:.1));if(i%2===0||Math.random()<.3)nt(t,c[(i*3+(s>>3))%4]+12+(Math.random()<.5?12:0),.5,'triangle',.07)}
+function mus(){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();ac.resume();if(!mg){mg=ac.createGain();mg.gain.value=.5;mg.connect(ac.destination);const d=ac.createDelay(),f=ac.createGain();d.delayTime.value=.3;f.gain.value=.4;mg.connect(d);d.connect(f);f.connect(d);d.connect(ac.destination)}
+ if(mt)return;let t=ac.currentTime+.1;mt=setInterval(()=>{while(t<ac.currentTime+.4){step(sp++,t);t+=.28}},100)}catch(e){}}
+const mstop=()=>{clearInterval(mt);mt=0};
+document.addEventListener('pointerdown',e=>{if(MU&&!mt&&!e.target.closest('#mb'))mus()});
+document.addEventListener('visibilitychange',()=>{document.hidden?mstop():MU&&ac&&mus()});
+$('#mb').onclick=()=>{MU=!MU;MU?mus():mstop();$('#mb').textContent=MU?'🎵':'🔕'};
+// ui
+function show(id){document.querySelectorAll('.scr').forEach(e=>e.classList.toggle('on',e.id===id));scrollTo(0,0)}
+function mk(c,t,f,p){const b=document.createElement('button');b.className=c;b.textContent=t;b.onclick=f;p.appendChild(b);return b}
+function avs(){const e=$('#avs');e.innerHTML='';AV.forEach(x=>mk('chip av'+(x===av?' sel':''),x,()=>{av=x;LS.s('jj_av',x);avs()},e))}
+function buildMap(){const pr=LS.g('jj_prog',{}),g=$('#mg');g.innerHTML='';let tot=0;
+ STG.forEach((s,i)=>{const st=pr[i]||0,open=i===0||pr[i-1]>0;tot+=st;const b=mk('stg alt'+(open?'':' lock'),'',()=>{if(open)begin(i)},g);b.innerHTML=(open?s[1]:'🔒')+' '+fa(i+1)+'. '+s[0]+'<small>'+(open?'⭐'.repeat(st)+'☆'.repeat(3-st):'قفل')+'</small>'});
+ $('#mp').textContent=av+' '+name+' — ستاره‌ها: '+fa(tot)+' از '+fa(STG.length*3)}
+function begin(i){ST=i;RU=STG[i][3]||[2,5,10];G={q:0,sc:0,hp:3,n:8,st:0};next();show('game')}
+function hud(){$('#lv').textContent='💖'.repeat(G.hp)+'🤍'.repeat(3-G.hp);$('#qn').textContent='سؤال '+fa(G.q)+' از '+fa(G.n);$('#sc').textContent='⭐ '+fa(G.sc)+(G.st>1?' 🔥'+fa(G.st):'');$('#pr').style.width=((G.q-1)/G.n*100)+'%'}
+function next(){G.q++;const q=G.cur=FN[R(STG[ST][2])]();G.sel=-1;G.hint=0;G.done=false;
+ $('#qt').textContent=q.t;$('#qq').innerHTML=q.q.replace(/\n/g,'<br>');$('#hints').innerHTML='';$('#msg').textContent='';
+ $('#chk').style.display='';$('#hint').style.display='';$('#nxt').style.display='none';
+ const o=$('#ops');o.innerHTML='';G.b=q.o.map(([l],i)=>mk('chip',l,()=>{if(G.done)return;G.sel=i;G.b.forEach((x,j)=>x.classList.toggle('sel',j===i));sfx(600)},o));hud()}
+function conf(){const e=['🌸','✨','🦋','⭐','💖','🍀'];for(let i=0;i<22;i++){const c=document.createElement('span');c.className='cf';c.textContent=R(e);c.style.left=Math.random()*100+'%';c.style.animationDelay=Math.random()*.4+'s';document.body.appendChild(c);setTimeout(()=>c.remove(),2300)}}
+function check(){if(G.done)return;if(G.sel<0){$('#msg').textContent='اول یک گزینه انتخاب کن 🙂';return}
+ G.done=true;const q=G.cur,good=q.o[G.sel][1];
+ G.b.forEach((b,i)=>{b.classList.remove('sel');if(q.o[i][1])b.classList.add('ok');else if(i===G.sel)b.classList.add('bad')});
+ if(good){G.st++;G.sc+=G.hint?5:10;let x='';if(G.st>=3){G.sc+=5;x=' 🔥 جایزه پشت‌هم (+۵)'}$('#msg').textContent='🎉 آفرین! درست بود!'+x;conf();sfx(784);setTimeout(()=>sfx(1046),120)}
+ else{G.st=0;G.hp--;$('#msg').textContent='😅 درست نبود. '+q.e;sfx(200);const w=$('#game');w.classList.add('shk');setTimeout(()=>w.classList.remove('shk'),450)}
+ hud();$('#chk').style.display='none';$('#hint').style.display='none';
+ const last=G.hp<=0||G.q>=G.n,n=$('#nxt');n.style.display='';n.textContent=last?'مشاهده نتیجه ◀':'بعدی ◀';n.onclick=last?fin:next}
+function hint(){if(G.done||G.hint)return;G.hint=1;const d=document.createElement('div');d.className='hint';d.textContent='💡 '+G.cur.h;$('#hints').appendChild(d)}
+function fin(){const win=G.hp>0,pc=G.sc/(G.n*10),s=!win?0:pc>=.9?3:pc>=.7?2:1,pr=LS.g('jj_prog',{});if(s>(pr[ST]||0)){pr[ST]=s;LS.s('jj_prog',pr)}
+ $('#et').textContent=win?'🏆 جزیره آزاد شد!':'🌙 قلب‌هایت تمام شد!';
+ $('#es').innerHTML=av+' '+name+'<br>امتیاز: '+fa(G.sc)+'<br>'+(s?'⭐'.repeat(s):'ستاره‌ای نگرفتی؛ دوباره امتحان کن، می‌توانی!');sfx(win?880:220);show('end')}
+$('#go').onclick=()=>{const n=$('#nm').value.trim()||name;if(!n){$('#nm').focus();$('#nm').placeholder='اول اسمت را بنویس!';return}name=n;LS.s('jj_nm',n);buildMap();show('map')};
+$('#hp').onclick=()=>show('help');$('#chk').onclick=check;$('#hint').onclick=hint;$('#again').onclick=()=>begin(ST);
+$('#quit').onclick=$('#tm').onclick=()=>{buildMap();show('map')};
+document.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>show('menu'));
+$('#nm').value=name;avs();
+// decor
+const fx=document.createElement('div');fx.className='fx';let h='';
+for(let i=0;i<14;i++)h+=`<span class='ff' style='left:${i*7+Math.random()*5}%;animation-duration:${8+Math.random()*9}s;animation-delay:${-Math.random()*12}s'>✨</span>`;
+['🦋','🦋','🧚'].forEach((f,i)=>h+=`<span class='bf' style='top:${18+i*22}%;animation-duration:${26+i*9}s;animation-delay:${-i*9}s'>${f}</span>`);
+h+='<div class="gr">'+['🌲','🍄','🌳','🌸','🌲','🍄','🌳'].map(x=>`<span>${x}</span>`).join('')+'</div>';fx.innerHTML=h;document.body.prepend(fx);
+</script>
+</body>
+</html>
